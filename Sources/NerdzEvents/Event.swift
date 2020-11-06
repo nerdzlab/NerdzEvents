@@ -32,22 +32,12 @@ public class Event<State> {
     public var hasListeners: Bool {
         return !listeners.isEmpty
     }
-
-    public private(set) var lastState: State
     
     private var listeners: [Token: Listener<State>] = [:]
 
-    public init(_ state: State) {
-        self.lastState = state
-    }
-
-    public func trigger(with newState: State? = nil) {
-        if let state = newState {
-            lastState = state
-        }
-
+    public func trigger(with state: State) {
         for listener in listeners.values {
-            listener.trigger(with: self.lastState)
+            listener.trigger(with: state)
         }
     }
 
