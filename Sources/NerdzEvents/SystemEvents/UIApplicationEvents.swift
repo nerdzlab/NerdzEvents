@@ -9,15 +9,13 @@ import UIKit
 
 extension UIApplication {
     var events: UIApplicationEvents {
-        let events = UIApplicationEvents.events
-        events.subscribeIfNeeded()
-        return events
+        .events
     }
 }
 
 
 public final class UIApplicationEvents {
-    fileprivate static let events = UIApplicationEvents()
+    public static let events = UIApplicationEvents()
     
     public let didBecomeActiveEvent = Event<Void>()
     public let didEnterBackgroundEvent = Event<Void>()
@@ -31,15 +29,11 @@ public final class UIApplicationEvents {
     public let protectedDataWillBecomeUnavailableEvent = Event<Void>()
     public let protectedDataDidBecomeAvailableEvent = Event<Void>()
     
-    private var isSubscribed: Bool = false
+    private init() {
+        subscribe()
+    }
     
-    private init() {}
-    
-    fileprivate func subscribeIfNeeded() {
-        guard !isSubscribed else {
-            return
-        }
-        
+    fileprivate func subscribe() {
         let center = NotificationCenter.default
         
         center.addObserver(forName: UIApplication.didBecomeActiveNotification, object: self, queue: .main) { [weak self] _ in
@@ -85,7 +79,5 @@ public final class UIApplicationEvents {
         center.addObserver(forName: UIApplication.protectedDataDidBecomeAvailableNotification, object: self, queue: .main) { [weak self] _ in
             self?.protectedDataDidBecomeAvailableEvent.trigger(with: ())
         }
-        
-        isSubscribed = true
     }
 }
