@@ -34,6 +34,8 @@ public class Event<State> {
     }
     
     private var listeners: [Token: Listener<State>] = [:]
+    
+    public init() { }
 
     public func trigger(with state: State) {
         for listener in listeners.values {
