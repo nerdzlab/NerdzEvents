@@ -16,6 +16,8 @@ public class DisposeBag {
             disposer.dispose()
         }
     }
+    
+    public init() { }
 
     deinit {
         disposeAll()
