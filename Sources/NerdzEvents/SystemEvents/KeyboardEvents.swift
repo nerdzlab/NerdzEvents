@@ -15,6 +15,15 @@ public final class KeyboardEvents {
         public let endFrame: CGRect
         
         public let notification: Notification
+        
+        init(_ notification: Notification) {
+            self.notification = notification
+            
+            duration = notification.userInfo?[UIResponder.keyboardAnimationDurationUserInfoKey] as? Double ?? 0
+            curve = notification.userInfo?[UIResponder.keyboardAnimationCurveUserInfoKey] as? UInt ?? 0
+            beginFrame = (notification.userInfo?[UIResponder.keyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue ?? .zero
+            endFrame = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue ?? .zero
+        }
     }
     
     public static let events = KeyboardEvents()
@@ -66,11 +75,6 @@ public final class KeyboardEvents {
     }
     
     private func info(from notification: Notification) -> Info {
-        let duration = notification.userInfo?[UIResponder.keyboardAnimationDurationUserInfoKey] as? Double ?? 0
-        let curve = notification.userInfo?[UIResponder.keyboardAnimationCurveUserInfoKey] as? UInt ?? 0
-        let startFrame = (notification.userInfo?[UIResponder.keyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue ?? .zero
-        let endFrame = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue ?? .zero
-        
-        return Info(duration: duration, curve: curve, beginFrame: startFrame, endFrame: endFrame, notification: notification)
+        return Info(notification)
     }
 }
