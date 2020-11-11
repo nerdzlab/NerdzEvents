@@ -28,7 +28,7 @@ public final class KeyboardEvents {
     
     public static let events = KeyboardEvents()
     
-    public let keyboardWillShowEVent = Event<Info>()
+    public let keyboardWillShowEvent = Event<Info>()
     public let keyboardDidShowEvent = Event<Info>()
     public let keyboardWillHideEvent = Event<Info>()
     public let keyboardDidHideEvent = Event<Info>()
@@ -46,7 +46,7 @@ public final class KeyboardEvents {
                 return
             }
             
-            self.keyboardWillShowEVent.trigger(with: self.info(from: $0))
+            self.keyboardWillShowEvent.trigger(with: self.info(from: $0))
         }
         
         center.addObserver(forName: UIResponder.keyboardDidShowNotification, object: self, queue: .main) { [weak self] in
