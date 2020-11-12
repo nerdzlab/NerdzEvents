@@ -41,7 +41,7 @@ public final class KeyboardEvents {
         
         let center = NotificationCenter.default
         
-        center.addObserver(forName: UIResponder.keyboardWillShowNotification, object: self, queue: .main) { [weak self] in
+        center.addObserver(forName: UIResponder.keyboardWillShowNotification, object: nil, queue: .main) { [weak self] in
             guard let self = self else {
                 return
             }
@@ -49,7 +49,7 @@ public final class KeyboardEvents {
             self.keyboardWillShowEvent.trigger(with: self.info(from: $0))
         }
         
-        center.addObserver(forName: UIResponder.keyboardDidShowNotification, object: self, queue: .main) { [weak self] in
+        center.addObserver(forName: UIResponder.keyboardDidShowNotification, object: nil, queue: .main) { [weak self] in
             guard let self = self else {
                 return
             }
@@ -57,7 +57,7 @@ public final class KeyboardEvents {
             self.keyboardDidShowEvent.trigger(with: self.info(from: $0))
         }
         
-        center.addObserver(forName: UIResponder.keyboardWillHideNotification, object: self, queue: .main) { [weak self] in
+        center.addObserver(forName: UIResponder.keyboardWillHideNotification, object: nil, queue: .main) { [weak self] in
             guard let self = self else {
                 return
             }
@@ -65,7 +65,7 @@ public final class KeyboardEvents {
             self.keyboardWillHideEvent.trigger(with: self.info(from: $0))
         }
         
-        center.addObserver(forName: UIResponder.keyboardDidHideNotification, object: self, queue: .main) { [weak self] in
+        center.addObserver(forName: UIResponder.keyboardDidHideNotification, object: nil, queue: .main) { [weak self] in
             guard let self = self else {
                 return
             }
