@@ -5,23 +5,25 @@
 import Foundation
 
 public class Event<State> {
-    private enum Token: Hashable {
-        case string(String)
-        case object(AnyObject)
-
+    private struct Token: Hashable {
+        private let string: String?
+        private let objectId: UInt?
+        
+        static func string(_ value: String) -> Self {
+            Self(string: value, objectId: nil)
+        }
+        
+        static func object(_ object: AnyObject) -> Self {
+            Self(string: nil, objectId: Self.udid(for: object))
+        }
+        
         static func ==(lhs: Token, rhs: Token) -> Bool {
-            switch (lhs, rhs) {
-            case (.string(let lhs), .string(let rhs)): return lhs == rhs
-            case (.object(let lhs), .object(let rhs)): return udid(for: lhs) == udid(for: rhs)
-            default: return false
-            }
+            lhs.string == rhs.string && lhs.objectId == rhs.objectId
         }
 
         func hash(into hasher: inout Hasher) {
-            switch self {
-            case .string(let string): hasher.combine(string)
-            case .object(let object): hasher.combine(Token.udid(for: object))
-            }
+            hasher.combine(string)
+            hasher.combine(objectId)
         }
 
         fileprivate static func udid(for object: AnyObject) -> UInt {
