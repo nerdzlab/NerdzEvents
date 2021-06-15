@@ -7,13 +7,24 @@
 
 import UIKit
 
+/// Class that represents keyboard appearance events
 public final class KeyboardEvents {
+    
+    /// Keyboard appearance events information
     public struct Info {
+        /// Animation duration
         public let duration: Double
+        
+        /// Animation curve
         public let curve: UInt
+        
+        /// Animation begin frame
         public let beginFrame: CGRect
+        
+        /// Animation end frame
         public let endFrame: CGRect
         
+        /// Notification object sent by system
         public let notification: Notification
         
         init(_ notification: Notification) {
@@ -26,11 +37,19 @@ public final class KeyboardEvents {
         }
     }
     
+    /// Singleton instance
     public static let events = KeyboardEvents()
     
+    /// `UIResponder.keyboardWillShowNotification` event
     public let keyboardWillShowEvent = Event<Info>()
+    
+    /// `UIResponder.keyboardDidShowNotification` event
     public let keyboardDidShowEvent = Event<Info>()
+    
+    /// `UIResponder.keyboardWillHideNotification` event
     public let keyboardWillHideEvent = Event<Info>()
+    
+    /// `UIResponder.keyboardDidHideNotification` event
     public let keyboardDidHideEvent = Event<Info>()
     
     private init() {

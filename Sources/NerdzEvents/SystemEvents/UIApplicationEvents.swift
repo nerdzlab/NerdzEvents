@@ -13,20 +13,43 @@ extension UIApplication {
     }
 }
 
-
+/// Class that represents standard events triggered by `UIApplication`
 public final class UIApplicationEvents {
+    
+    /// Singleton instance
     public static let events = UIApplicationEvents()
     
+    /// `UIApplication.didBecomeActiveNotification` event
     public let didBecomeActiveEvent = Event<Void>()
+    
+    /// `UIApplication.didEnterBackgroundNotification` event
     public let didEnterBackgroundEvent = Event<Void>()
+    
+    /// `UIApplication.didFinishLaunchingNotification` event
     public let didFinishLaunchingEvent = Event<Void>()
+    
+    /// `UIApplication.willEnterForegroundNotification` event
     public let willEnterForegroundEvent = Event<Void>()
+    
+    /// `UIApplication.willResignActiveNotification` event
     public let willResignActiveEvent = Event<Void>()
+    
+    /// `UIApplication.didReceiveMemoryWarningNotification` event
     public let didReceiveMemoryWarningEvent = Event<Void>()
+    
+    /// `UIApplication.willTerminateNotification` event
     public let willTerminateEvent = Event<Void>()
+    
+    /// `UIApplication.significantTimeChangeNotification` event
     public let significantTimeChangeEvent = Event<Void>()
+    
+    /// `UIApplication.backgroundRefreshStatusDidChangeNotification` event
     public let backgroundRefreshStatusDidChangeEvent = Event<Void>()
+    
+    /// `UIApplication.protectedDataWillBecomeUnavailableNotification` event
     public let protectedDataWillBecomeUnavailableEvent = Event<Void>()
+    
+    /// `UIApplication.protectedDataDidBecomeAvailableNotification` event
     public let protectedDataDidBecomeAvailableEvent = Event<Void>()
     
     private init() {

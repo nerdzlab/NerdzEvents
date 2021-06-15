@@ -4,6 +4,9 @@
 
 import Foundation
 
+/// Event representation class. 
+/// You need to create an instance of event and then bind on it and trigger
+/// `State` is a generic parameter that specify a type of information that current event might send to listeners
 public class Event<State> {
     private struct Token: Hashable {
         private let string: String?
@@ -30,23 +33,29 @@ public class Event<State> {
             return UInt(bitPattern: ObjectIdentifier(object))
         }
     }
-
+    
+    /// `true` if current event have at least one listener
     public var hasListeners: Bool {
         return !listeners.isEmpty
     }
     
     private var listeners: [Token: Listener<State>] = [:]
     
+    /// Main initializer
     public init() { }
-
+    
+    /// Method that will trigger information notifying to all listeners
+    /// - Parameter state: An information that needs to be send to listeners
     public func trigger(with state: State) {
         for listener in listeners.values {
             listener.trigger(with: state)
         }
     }
-
-    @discardableResult
-    public func listen(signedBy object: AnyObject? = nil) -> Listener<State> {
+    
+    /// Adding new listener to current event
+    /// - Parameter object: Signing object. Might be only one subscription per one object. Useful if you want to be sure that you have not subscribed several times to similar event with one object
+    /// - Returns: Listener that might be additionaly configured
+    @discardableResult public func listen(signedBy object: AnyObject? = nil) -> Listener<State> {
         let token: Token
 
         if let object = object {
@@ -65,9 +74,11 @@ public class Event<State> {
 
         return listener
     }
-
-    @discardableResult
-    public func removeListener(signedBy: AnyObject) -> Bool {
+    
+    /// Removing listener signed with object
+    /// - Parameter signedBy: Signing object
+    /// - Returns: `true` if listener was successfuly removed
+    @discardableResult public func removeListener(signedBy: AnyObject) -> Bool {
         return removeListener(with: Token.object(signedBy))
     }
 
