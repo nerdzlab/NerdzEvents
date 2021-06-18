@@ -5,6 +5,8 @@
 //  Created by new user on 30.10.2020.
 //
 
+#if canImport(UIKit)
+
 import UIKit
 
 extension UIApplication {
@@ -104,3 +106,5 @@ public final class UIApplicationEvents {
         }
     }
 }
+
+#endif

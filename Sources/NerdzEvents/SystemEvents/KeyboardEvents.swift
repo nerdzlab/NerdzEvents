@@ -5,6 +5,8 @@
 //  Created by new user on 08.11.2020.
 //
 
+#if canImport(UIKit)
+
 import UIKit
 
 /// Class that represents keyboard appearance events
@@ -97,3 +99,5 @@ public final class KeyboardEvents {
         return Info(notification)
     }
 }
+
+#endif
