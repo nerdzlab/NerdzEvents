@@ -40,7 +40,7 @@ public class Listener<State> {
     // MARK: - Methods(Confuguration)
     
     /// Specifying queue on what event needs to be triggered
-    /// - Parameter queue: Execution queue
+    /// - Parameter queue: Execution queue. By default is `.main`
     /// - Returns: Same listener for next setup
     @discardableResult public func onQueue(_ queue: DispatchQueue) -> Listener<State> {
         dispatchQueue = queue
@@ -65,7 +65,7 @@ public class Listener<State> {
     /// Providing a closure that needs to be triggered
     /// - Parameter closure: Triggering closure
     /// - Returns: Same listener for next setup
-    @discardableResult public func call(_ closure: @escaping (State) -> Void) -> Listener<State> {
+    @discardableResult public func perform(_ closure: @escaping (State) -> Void) -> Listener<State> {
         self.notifyClosures.append(closure)
         return self
     }
@@ -74,7 +74,7 @@ public class Listener<State> {
     /// - Parameter event: Binding event
     /// - Returns: Same listener for next setup
     @discardableResult public func bind(to event: Event<State>) -> Listener<State> {
-        return call({ event.trigger(with: $0) })
+        return perform({ event.trigger(with: $0) })
     }
     
     /// Providing dispose bag for automatic disposing
