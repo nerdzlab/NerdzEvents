@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>NerdzEvents  Reference</title>
+    <link rel="stylesheet" type="text/css" href="css/jazzy.css" />
+    <link rel="stylesheet" type="text/css" href="css/highlight.css" />
+    <meta charset='utf-8'>
+    <script src="js/jquery.min.js" defer></script>
+    <script src="js/jazzy.js" defer></script>
+    
+    <script src="js/lunr.min.js" defer></script>
+    <script src="js/typeahead.jquery.js" defer></script>
+    <script src="js/jazzy.search.js" defer></script>
+  </head>
+  <body>
+    <a title="NerdzEvents  Reference"></a>
+    <header>
+      <div class="content-wrapper">
+        <p><a href="index.html">NerdzEvents 1.0.0 Docs</a> (95% documented)</p>
+        <p class="header-right">
+          <form role="search" action="search.json">
+            <input type="text" placeholder="Search documentation" data-typeahead>
+          </form>
+        </p>
+      </div>
+    </header>
+    <div class="content-wrapper">
+      <p id="breadcrumbs">
+        <a href="index.html">NerdzEvents Reference</a>
+        <img id="carat" src="img/carat.png" />
+        NerdzEvents  Reference
+      </p>
+    </div>
+    <div class="content-wrapper">
+      <nav class="sidebar">
+        <ul class="nav-groups">
+          <li class="nav-group-name">
+            <a href="Classes.html">Classes</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="Classes/DisposeBag.html">DisposeBag</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes/Disposer.html">Disposer</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes/Event.html">Event</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes/KeyboardEvents.html">KeyboardEvents</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes/KeyboardEvents/Info.html">– Info</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes/Listener.html">Listener</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes/UIApplicationEvents.html">UIApplicationEvents</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+      <article class="main-content">
+        <section>
+          <section class="section">
+            
+            <h1 id='nerdzevents' class='heading'>NerdzEvents</h1>
+
+<p>NerdzEvents library provides an easy way to creating, subscribing, and triggering events. The approach is similar to <code>RxSwift</code> <code>Observables</code>.</p>
+<h2 id='a-href-https-nerdz-events-doc-vercel-app-documentation-a' class='heading'><a href="https://nerdz-events-doc.vercel.app">Documentation</a></h2>
+<h2 id='example' class='heading'>Example</h2>
+<h3 id='creating-an-event' class='heading'>Creating an event</h3>
+
+<p>In example we will create an event that will be triggering with <code>Int</code> value as a state</p>
+<pre class="highlight swift"><code><span class="k">let</span> <span class="nv">likesCountChangedEvent</span> <span class="o">=</span> <span class="kt">Event</span><span class="o">&lt;</span><span class="kt">Int</span><span class="o">&gt;</span><span class="p">()</span>
+</code></pre>
+<h3 id='creating-code-void-code-event' class='heading'>Creating <code>Void</code> event</h3>
+
+<p>In case you do not need any state, and just need to inform about some situation - you need to use <code>()</code> as a parameter</p>
+<pre class="highlight swift"><code><span class="k">let</span> <span class="nv">userLoggedOutEvent</span> <span class="o">=</span> <span class="kt">Event</span><span class="o">&lt;</span><span class="p">()</span><span class="o">&gt;</span><span class="p">()</span>
+</code></pre>
+<h3 id='subscribing-to-event' class='heading'>Subscribing to event</h3>
+
+<p>To start listening to the event, you should use <code>listen</code> method </p>
+
+<p>If you will pass <code>signedBy</code> object - listener will be unique per object(this might help to avoid multiple subscriptions to single event, that might lead into incorrect behaviour)</p>
+
+<p>As the result of method, you will receive <code><a href="Classes/Listener.html">Listener</a></code> class responsible for setup of subscription, and has a list of useful settings. Follow doc for more information</p>
+<pre class="highlight swift"><code><span class="k">let</span> <span class="nv">listener</span> <span class="o">=</span> <span class="n">likesCountChangedEvent</span>
+    <span class="o">.</span><span class="nf">listen</span><span class="p">(</span><span class="nv">signedBy</span><span class="p">:</span> <span class="k">self</span><span class="p">)</span> <span class="c1">// Should always be as a first call to receive listener for future setup</span>
+    <span class="o">.</span><span class="nf">onQueue</span><span class="p">(</span><span class="o">.</span><span class="n">main</span><span class="p">)</span> <span class="c1">// Specifying a queue on witch action will be performed</span>
+    <span class="o">.</span><span class="nf">once</span><span class="p">()</span> <span class="c1">// Will be triggered only once</span>
+    <span class="o">.</span><span class="n">filter</span> <span class="p">{</span> <span class="nv">$0</span> <span class="o">&gt;</span> <span class="mi">100</span> <span class="p">}</span> <span class="c1">// Filtering out all triggers that have state &lt;= 100</span>
+    <span class="o">.</span><span class="n">perform</span> <span class="p">{</span> <span class="nf">print</span><span class="p">(</span><span class="s">"Receiving all events when count become higher than 100"</span><span class="p">)</span> <span class="p">}</span> <span class="c1">// Specifying performing closure</span>
+</code></pre>
+<h3 id='unsubscribing-from-event-manually' class='heading'>Unsubscribing from event manually</h3>
+
+<p>To unsubscribe from event you can use <code><a href="Classes/DisposeBag.html">DisposeBag</a></code> or manually by method <code>removeListener</code></p>
+<pre class="highlight swift"><code><span class="n">likesCountChangedEvent</span><span class="o">.</span><span class="nf">removeListener</span><span class="p">(</span><span class="nv">signedBy</span><span class="p">:</span> <span class="k">self</span><span class="p">)</span>
+</code></pre>
+<h3 id='unsubscribing-from-event-by-code-disposebag-code' class='heading'>Unsubscribing from event by <code><a href="Classes/DisposeBag.html">DisposeBag</a></code></h3>
+
+<p><code><a href="Classes/DisposeBag.html">DisposeBag</a></code> allow you to automatically unsubscribe from event when object will be deleted. use this approach when you need subscription during all life on an object</p>
+<pre class="highlight swift"><code><span class="k">let</span> <span class="nv">disposeBag</span> <span class="o">=</span> <span class="kt">DisposeBag</span><span class="p">()</span>
+
+<span class="n">likesCountChangedEvent</span>
+    <span class="o">.</span><span class="nf">listen</span><span class="p">(</span><span class="nv">signedBy</span><span class="p">:</span> <span class="k">self</span><span class="p">)</span>
+    <span class="o">.</span><span class="nf">dispose</span><span class="p">(</span><span class="nv">by</span><span class="p">:</span> <span class="n">disposeBag</span><span class="p">)</span>
+    <span class="o">.</span><span class="n">perform</span> <span class="p">{</span> <span class="c1">// }</span>
+</code></pre>
+<h2 id='installation-swift-package-manager' class='heading'>Installation Swift Package Manager</h2>
+
+<p>To add NerdzEvents to a <a href="https://swift.org/package-manager/">Swift Package Manager</a> based project, add:</p>
+<pre class="highlight swift"><code><span class="o">.</span><span class="nf">package</span><span class="p">(</span><span class="nv">url</span><span class="p">:</span> <span class="s">"https://github.com/nerdzlab/NerdzEvents"</span><span class="p">)</span>
+</code></pre>
+<h2 id='license' class='heading'>License</h2>
+
+<p>This code is distributed under the MIT license. See the <code>LICENSE</code> file for more info.</p>
+
+          </section>
+        </section>
+        <section id="footer">
+          <p>&copy; 2021 <a class="link" href="https://github.com/nerdzlab/NerdzEvents" target="_blank" rel="external">NerdzLab</a>. All rights reserved. (Last updated: 2021-06-18)</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.13.7</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+        </section>
+      </article>
+    </div>
+  </body>
+</div>
+</html>
