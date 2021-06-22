@@ -2,7 +2,7 @@
 
 NerdzEvents library provides an easy way to creating, subscribing, and triggering events. The approach is similar to `RxSwift` `Observables`.
 
-## [Documentation](https://nerdz-events-doc.vercel.app)
+## [Documentation](https://nerdzevents.web.app)
 
 ## Example
 
