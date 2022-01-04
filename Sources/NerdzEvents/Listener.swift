@@ -7,10 +7,11 @@ import Foundation
 /// Represent a single listener settings
 public class Listener<State> {
     private var notifyClosures: [(State) -> Void] = []
-
-    private(set) var filteringClosures: [(State) -> Bool] = []
-    private(set) var dispatchQueue: DispatchQueue = .main
-    private(set) var dispatchOnce: Bool = false
+    private var filteringClosures: [(State) -> Bool] = []
+    
+    private var dispatchQueue: DispatchQueue = .main
+    private var dispatchOnce: Bool = false
+    private var childListeners: [Any] = []
     
     /// Listener disposer. Follow `Disposer` documentation for more info
     public let disposer: Disposer
@@ -83,6 +84,23 @@ public class Listener<State> {
     @discardableResult public func dispose(by disposeBag: DisposeBag) -> Listener<State> {
         disposeBag.addDisposer(disposer)
         return self
+    }
+    
+    /// Mapping existing listener to another one
+    /// - Parameter type: Type of a new state for future listener
+    /// - Parameter closure: Mapping closure
+    /// - Returns: New mapped listener
+    public func map<NewState>(to type: NewState.Type, _ closure: @escaping (State) -> NewState) -> Listener<NewState> {
+        let listener = Listener<NewState>(disposer: disposer)
+        
+        childListeners.append(listener)
+        
+        notifyClosures.append {
+            let newState = closure($0)
+            listener.trigger(with: newState)
+        }
+        
+        return listener
     }
 }
 
