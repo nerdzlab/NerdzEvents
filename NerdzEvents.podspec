@@ -2,7 +2,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'NerdzEvents'
-  s.version          = '1.0.9'
+  s.version          = '1.0.11'
   s.summary          = 'Reactive approach for events tracking and triggering'
   s.homepage         = 'https://github.com/nerdzlab/NerdzEvents'
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
